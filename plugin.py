@@ -24,10 +24,20 @@ try:
     from urllib import urlencode, quote_plus
 except ImportError:
     from urllib.parse import urlencode, quote_plus
-
+import json
 
 plugin = routing.Plugin()
+addon = xbmcaddon.Addon()
 
+def get_play_count(current_path, filename):
+    json_query = '{"jsonrpc": "2.0", "method": "Files.GetFileDetails", "params":{"file":%s, "media":"video", "properties":["playcount"]}, "id": 1}' % (json.dumps(current_path + filename))
+    xbmc.log("[%s] query %s" %
+            (addon.getAddonInfo('id'), json_query), xbmc.LOGDEBUG)
+    json_response = xbmc.executeJSONRPC(json_query)
+    xbmc.log("[%s] response '%s'" %
+            (addon.getAddonInfo('id'), json_response), xbmc.LOGDEBUG)
+    response = json.loads(json_response)
+    return response['result']['filedetails'].get('playcount', 0)
 
 @plugin.route("/")
 def browse():
@@ -45,6 +55,7 @@ def browse():
 
     dirs = []
     files = []
+
     if xbmcvfs.exists(current_path):
         dirs, files = xbmcvfs.listdir(current_path)
 
@@ -63,6 +74,9 @@ def browse():
 
     for name in files:
         li = ListItem(name)
+        playCount = get_play_count(current_path, name)
+        if playCount:
+            li.getVideoInfoTag().setPlaycount(playCount)
         if 'fanart' in args:
             li.setArt({'fanart': args['fanart'][0]})
         url = os.path.join(current_path, py2_decode(name))
@@ -70,6 +84,7 @@ def browse():
 
     xbmcplugin.addSortMethod(plugin.handle, xbmcplugin.SORT_METHOD_LABEL)
     xbmcplugin.endOfDirectory(plugin.handle)
+    xbmcplugin.setContent(plugin.handle, 'videos')
 
 
 @plugin.route("/youtube")
