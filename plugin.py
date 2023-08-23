@@ -69,7 +69,7 @@ def browse():
         if 'fanart' in args:
             li.setArt({'fanart': args['fanart'][0]})
             params.update({b'fanart': args['fanart'][0]})
-        url = 'plugin://context.item.extras/?' + urlencode(params)
+        url = 'plugin://context.item.extras.mod/?' + urlencode(params)
         xbmcplugin.addDirectoryItem(plugin.handle, url, li, isFolder=True)
 
     for name in files:

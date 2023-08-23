@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <settings version="1">
-	<section id="context.item.extras">
+	<section id="context.item.extras.mod">
 		<category id="default" label="571" help="">
 			<group id="1">
 				<setting id="extras-folder" type="string" label="30001" help="">

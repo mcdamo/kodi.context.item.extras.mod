@@ -23,8 +23,7 @@
     <news>1.4.2[CR]- updated language files[CR]- remove YouTube option from menu (the option hasn't worked for quite some time)</news>
     <platform>all</platform>
     <license>GPL-3.0-ONLY</license>
-    <forum>https://forum.kodi.tv/showthread.php?tid=312338</forum>
-    <source>https://github.com/tamland/kodi-addon-extras</source>
+    <source>https://github.com/mcdamo/kodi.context.item.extras.mod</source>
     <website>http://kodi.wiki/view/Add-on:Extras</website>
     <assets>
       <icon>icon.png</icon>
